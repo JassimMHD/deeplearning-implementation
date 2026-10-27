@@ -66,8 +66,8 @@ Legend: ✅ done · 🚧 in progress · ⬜ not started
 | # | Topic | What I build | Status |
 |---|-------|--------------|--------|
 | 1.1 | Single neuron / perceptron | Weighted sum + step activation, AND/OR gates | ⬜ |
-| 1.2 | Why XOR breaks a perceptron | Linear separability, hand-crafted XOR | ✅ |
-| 1.3 | **Multi-layer perceptron + backprop (pure Python)** | 2→4→1 network that learns XOR with hand-derived gradients ([`dl.py`](deeplearning-implementaion/dl.py)) | ✅ |
+| 1.2 | Why XOR breaks a perceptron | Linear separability, hand-crafted XOR ([`hand_crafted_xor.py`](hand_crafted_xor.py)) | ✅ |
+| 1.3 | **Multi-layer perceptron + backprop (pure Python)** | 2→4→1 network that learns XOR with hand-derived gradients ([`main.py`](main.py), [`mlp/`](mlp/)) | ✅ |
 | 1.4 | Vectorized MLP (NumPy) | Same network as matrix ops, batched training | ⬜ |
 | 1.5 | MNIST with an MLP | Softmax + cross-entropy, ~97% accuracy target | ⬜ |
 | 1.6 | Gradient checking | Finite-difference checker for every layer | ⬜ |
@@ -145,7 +145,15 @@ Current:
 Backpropagation/
 ├── README.md
 └── deeplearning-implementaion/
-    └── dl.py            # 1.3: MLP that learns XOR, backprop by hand (pure Python)
+    ├── main.py              # 1.3: train the 2→4→1 MLP on XOR
+    ├── hand_crafted_xor.py  # 1.2: XOR written by hand, no learning
+    └── mlp/                 # pure-Python MLP with hand-written backprop
+        ├── activations.py   # Sigmoid (forward + derivative)
+        ├── layers.py        # Dense layer (forward, backward, SGD update)
+        ├── losses.py        # BinaryCrossEntropy
+        ├── network.py       # NeuralNetwork: stacks layers, runs backprop
+        ├── trainer.py       # Trainer: epoch loop, loss history
+        └── data.py          # XOR dataset
 ```
 
 Planned (grows as milestones are completed):
@@ -171,7 +179,8 @@ The early milestones use **only the Python standard library**.
 
 ```bash
 # Requires Python 3.8+
-python deeplearning-implementaion/dl.py
+cd deeplearning-implementaion
+python main.py
 ```
 
 Expected output (XOR learned by a 2→4→1 network):
